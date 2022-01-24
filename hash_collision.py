@@ -8,9 +8,29 @@ def hash_collision(k):
     if k < 0:
         print( "Specify a positive number of bits" )
         return( b'\x00',b'\x00' )
+    
+    generated = {}
    
     #Collision finding code goes here
-    x = b'\x00'
-    y = b'\x00'
+    while True:
+        x = os.urandom(64)
+        y = os.urandom(64)
+
+        binary_x = format(int(hashlib.sha256(x).hexdigest(), 16), 'b')
+        binary_y = format(int(hashlib.sha256(y).hexdigest(), 16), 'b')
+
+        if x not in generated:
+            binary_x = format(int(hashlib.sha256(x).hexdigest(), 16), 'b')
+            generated[x] = binary_x
+
+        if y not in generated:
+            binary_y = format(int(hashlib.sha256(y).hexdigest(), 16), 'b')
+            generated[y] = binary_y
+
+        x = generated[x]
+        y = generated[y]
+        
+        if x[-k:] == y[-k:]:
+            break
     
     return( x, y )
