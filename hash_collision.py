@@ -27,10 +27,10 @@ def hash_collision(k):
             binary_y = format(int(hashlib.sha256(y).hexdigest(), 16), 'b')
             generated[y] = binary_y
 
-        x = generated[x]
-        y = generated[y]
+        bin_x = generated[x]
+        bin_y = generated[y]
         
-        if x[-k:] == y[-k:]:
+        if bin_x[-k:] == bin_y[-k:]:
             break
     
     return( x, y )
